@@ -1,0 +1,13 @@
+.nga-filter {
+  display: block;
+  width: 100%;
+}
+.nga-sorter {
+  position: relative;
+}
+.nga-sorter::after {
+  content: 'Sort';
+  color: #0000cc;
+  padding: 5px;
+  float: right;
+}
