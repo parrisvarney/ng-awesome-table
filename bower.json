@@ -1,0 +1,16 @@
+{
+  "name": "ng-awesome-table",
+  "version": "0.0.2",
+  "homepage": "https://github.com/parrisvarney/ng-awesome-table",
+  "authors": [
+    "Parris Varney <parris.varney@gmail.com>"
+  ],
+  "description": "An awesomely simple AngularJS plugin for sorting and filtering tables",
+  "main": "bin/ng-awesome-table.js",
+  "keywords": [
+    "AngularJS",
+    "table"
+  ],
+  "license": "MIT",
+  "ignore": []
+}
