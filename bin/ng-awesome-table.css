@@ -2,12 +2,38 @@
   display: block;
   width: 100%;
 }
-.nga-sorter {
+.nga-sorter-icon {
+  content: '';
+  float: right;
+  width: 0;
+  height: 0;
+  margin: 5px;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+}
+.nga-sorter.nga-sorter-ascending {
   position: relative;
 }
-.nga-sorter::after {
-  content: 'Sort';
-  color: #0000cc;
-  padding: 5px;
+.nga-sorter.nga-sorter-ascending::after {
+  content: '';
   float: right;
+  width: 0;
+  height: 0;
+  margin: 5px;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 5px solid black;
+}
+.nga-sorter.nga-sorter-descending {
+  position: relative;
+}
+.nga-sorter.nga-sorter-descending::after {
+  content: '';
+  float: right;
+  width: 0;
+  height: 0;
+  margin: 5px;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-bottom: 5px solid black;
 }

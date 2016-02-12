@@ -90,11 +90,21 @@ angular.module('ngAwesomeTable', [])
             restrict: 'A',
             require:  '^^ngaTable',
             link: function(scope, element, attributes, ctrl) {
-                let sorter = angular.element('<span>').addClass('nga-sorter');
+                let sorter = angular.element('<span>').addClass('nga-sorter').addClass('nga-sorter-ascending'),
+                    classes = ['nga-sorter-ascending', 'nga-sorter-descending'];
 
                 sorter.click(function() {
                     sorter.data('direction', !sorter.data('direction'));
-                    ctrl.sort(attributes.ngaSort, sorter.data('direction'));
+                    let direction = sorter.data('direction');
+
+                    ctrl.sort(attributes.ngaSort, direction);
+
+                    $('.nga-sorter')
+                        .removeClass(classes.join(' '))
+                        .addClass('nga-sorter-ascending');
+
+                    sorter.removeClass(classes.join(' '));
+                    sorter.addClass(classes[+direction])
                 });
 
                 element.append(sorter);
