@@ -1,16 +1,20 @@
 'use strict';
 angular.module('ngAwesomeTable', [])
-    .directive('ngaTable', function() {
+    .directive('ngaTable', ['$parse', function($parse) {
         return {
             restrict: 'A',
-            scope: {
-                model: '='
+            link: function(scope, element, attributes) {
+                scope.model = attributes.model;
             },
-
             controller: ['$scope', '$filter', function($scope, $filter) {
-                // Copy the model to local scope so that it can be filtered without affecting the originating data
-                $scope.$watch('model', newVal => $scope.rows = newVal);
-                $scope.rows    = $scope.model;
+                // Watch the model
+                $scope.$watch(
+                    () => $parse($scope.model)($scope),
+                    newVal => {
+                        $scope.originalRows = newVal;
+                        $scope.rows = newVal;
+                    });
+                $scope.rows = $scope.model;
 
                 // Make this directives isolated scope public to child directives
                 this.getScope  = () => $scope;
@@ -29,7 +33,7 @@ angular.module('ngAwesomeTable', [])
                  */
                 this.filter = (field, value) => {
                     this.filterObj[field] = value;
-                    $scope.$apply(() => $scope.rows = $filter('filter')($scope.model, this.filterObj));
+                    $scope.$apply(() => $scope.rows = $filter('filter')($scope.originalRows, this.filterObj));
                 };
 
                 /**
@@ -45,7 +49,7 @@ angular.module('ngAwesomeTable', [])
                     $scope.$apply(() => $scope.rows = $filter('orderBy')($scope.rows, field, direction));
             }]
         }
-    })
+    }])
     .directive('ngaRow', ['$compile', function($compile) {
         return {
             restrict: 'A',
