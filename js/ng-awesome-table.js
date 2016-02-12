@@ -32,7 +32,11 @@ angular.module('ngAwesomeTable', [])
                  *   The field value to filter over
                  */
                 this.filter = (field, value) => {
-                    this.filterObj[field] = value;
+                    if (value === '') {
+                        delete this.filterObj[field];
+                    } else {
+                        this.filterObj[field] = value;
+                    }
                     $scope.$apply(() => $scope.rows = $filter('filter')($scope.originalRows, this.filterObj));
                 };
 
