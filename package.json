@@ -2,11 +2,11 @@
   "author": "Parris Varney",
   "name": "ng-awesome-table",
   "description": "An awesomely simple AngularJS plugin for sorting and filtering tables",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "homepage": "https://github.com/parrisvarney",
   "repository": {
     "type": "git",
-    "url": "https://github.com/parrisvarney/ng-awesome-table.js"
+    "url": "https://github.com/parrisvarney/ng-awesome-table"
   },
   "license": "MIT",
   "dependencies": {},
