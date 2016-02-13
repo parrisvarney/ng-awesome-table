@@ -94,10 +94,16 @@ This will create a text field that will filter the `model` based on its contents
 ### nga-sort
 
 This will create an awesome column sorter.  Simple as that.
- 
-
 
 ## Upcoming
 * Sorting on callbacks
 * Filtering on callbacks
 * Pagination
+
+## Notes
+* ng-awesome-table is written using the latest and greatest EMCA version 6.  Supporting a dinosaur browser?  No problem,
+the minified build is transpiled to be compatible with EMCA 5 browsers.
+* The minified source is roughly two and a half kilobytes.  Not 250K, literally one one hundredth of that.
+* ng-awesome-table has a light 122 SLOC (95 w/o comments).  Don't rely on stars or forks to mesure the security and
+stability of the plugin, just review out the source.
+* Pull requests and feature requests are very appreciated!

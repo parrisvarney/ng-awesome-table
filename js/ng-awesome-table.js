@@ -16,7 +16,7 @@ angular.module('ngAwesomeTable', [])
                     });
                 $scope.rows = $scope.model;
 
-                // Make this directives isolated scope public to child directives
+                // Make this directive's isolated scope public to its children
                 this.getScope  = () => $scope;
 
                 // Remember the all the field filters
