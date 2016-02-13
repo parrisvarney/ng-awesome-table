@@ -95,6 +95,14 @@ This will create a text field that will filter the `model` based on its contents
 
 This will create an awesome column sorter.  Simple as that.
 
+## Styling
+
+Probably the least awesome parts of ng-awesome-table are the packaged styles.  There are 3 overrides available.
+
+* `nga-filter` targets each filter's input box.
+* `nga-sorter-ascending` styles the sorter icon that is visible when the column is being sorted.
+* `nga-sorter-descending` styles the sorter icon that is visible when the table column is being sorted in reverse order.
+
 ## Upcoming
 * Sorting on callbacks
 * Filtering on callbacks
