@@ -15,7 +15,7 @@ project by project basis.
 We've got:
 * Sorting
 * Filtering
-* Pagination (soon)
+* Pagination
 
 ## How?
 
@@ -25,7 +25,7 @@ controllers, or stepping through library source code to discover poorly document
 
 The markup
 ```html
-<table nga-table model="awesomeFeatures">
+<table nga-table model="awesomeFeatures" nga-paginate="5">
     <thead>
     <tr>
         <th nga-filter="name" nga-sort="name">Feature Name</th>
@@ -75,12 +75,17 @@ angular.module('awesome-module', [])
 
 ## More specifically... How?
 
-Activate your awesome table using the nga-table attribute.  From there are three awesome directives.
+Activate your awesome table using the nga-table attribute.  From there are four additional awesome directives.
 
 ### model
 
 This is the data source for the table.  It's generally an array, and something that would normally be the source
 for `ng-repeat`.
+
+### nga-paginate
+
+This control will create a pager at the bottom of your table, and apply `limitTo` to the contents.  The value of this
+attribute will control how many rows show at once.
 
 ### nga-row
 
@@ -102,16 +107,16 @@ Probably the least awesome parts of ng-awesome-table are the packaged styles.  T
 * `nga-filter` targets each filter's input box.
 * `nga-sorter-ascending` styles the sorter icon that is visible when the column is being sorted.
 * `nga-sorter-descending` styles the sorter icon that is visible when the table column is being sorted in reverse order.
+* `nga-(prev|next)-page::after` styles the pager.
 
 ## Upcoming
 * Sorting on callbacks
 * Filtering on callbacks
-* Pagination
 
 ## Notes
 * ng-awesome-table is written using the latest and greatest EMCA version 6.  Supporting a dinosaur browser?  No problem,
 the minified build is transpiled to be compatible with EMCA 5 browsers.
 * The minified source is roughly two and a half kilobytes.  Not 250K, literally one one hundredth of that.
-* ng-awesome-table has a light 122 SLOC (95 w/o comments).  Don't rely on stars or forks to mesure the security and
+* ng-awesome-table has a light <200 SLOC.  Don't rely on stars or forks to measure the security and
 stability of the plugin, just review out the source.
 * Pull requests and feature requests are very appreciated!

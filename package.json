@@ -2,7 +2,7 @@
   "author": "Parris Varney",
   "name": "ng-awesome-table",
   "description": "An awesomely simple AngularJS plugin for sorting and filtering tables",
-  "version": "0.0.5",
+  "version": "0.1.0",
   "homepage": "https://github.com/parrisvarney",
   "repository": {
     "type": "git",

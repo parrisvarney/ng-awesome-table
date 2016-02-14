@@ -3,26 +3,43 @@
 angular.module('ngAwesomeTable', []).directive('ngaTable', function () {
     return {
         restrict: 'A',
-        scope: {
-            model: '='
-        },
+        link: function link(scope, element, attributes, ctrl) {
+            scope.model = attributes.ngaModel;
 
-        controller: ['$scope', '$filter', function ($scope, $filter) {
+            // Setup pagination control if nga-paginate is set
+            if (attributes.ngaPaginate) {
+                var paginater = angular.element('<div><span class="nga-prev-page"></span> <span class="nga-next-page"></span></div>');
+                paginater.find('.nga-prev-page').click(function () {
+                    return ctrl.paginate('-');
+                });
+                paginater.find('.nga-next-page').click(function () {
+                    return ctrl.paginate('+');
+                });
+
+                element.append(paginater);
+
+                scope.paginateRowsPerPage = attributes.ngaPaginate;
+                scope.paginateCurrentPage = 1;
+            }
+        },
+        controller: ['$scope', '$filter', '$timeout', '$parse', function ($scope, $filter, $timeout, $parse) {
             var _this = this;
 
-            // Copy the model to local scope so that it can be filtered without affecting the originating data
-            $scope.$watch('model', function (newVal) {
-                return $scope.rows = newVal;
+            // Watch the model
+            $scope.$watch(function () {
+                return $parse($scope.model)($scope);
+            }, function (newVal) {
+                _this.originalRows = newVal;
+                $scope.rows = newVal;
+                _this.applyFilter({});
             });
+
             $scope.rows = $scope.model;
 
-            // Make this directives isolated scope public to child directives
+            // Make this directive's isolated scope public to its children
             this.getScope = function () {
                 return $scope;
             };
-
-            // Remember the all the field filters
-            this.filterObj = {};
 
             /**
              * Applies any ngFilters to the model
@@ -33,10 +50,16 @@ angular.module('ngAwesomeTable', []).directive('ngaTable', function () {
              * @param value
              *   The field value to filter over
              */
+            this.filterObj = {};
             this.filter = function (field, value) {
-                _this.filterObj[field] = value;
-                $scope.$apply(function () {
-                    return $scope.rows = $filter('filter')($scope.model, _this.filterObj);
+                if (value === '') {
+                    delete _this.filterObj[field];
+                } else {
+                    _this.filterObj[field] = value;
+                }
+
+                _this.applyFilter({
+                    filter: _this.filterObj
                 });
             };
 
@@ -50,8 +73,58 @@ angular.module('ngAwesomeTable', []).directive('ngaTable', function () {
              *   The direction to sort (true: descending, false: ascending)
              */
             this.sort = function (field, direction) {
-                return $scope.$apply(function () {
-                    return $scope.rows = $filter('orderBy')($scope.rows, field, direction);
+                _this.applyFilter({
+                    sort: { field: field, direction: direction }
+                });
+            };
+
+            /**
+             * Filters out rows that are outside of the current page
+             *
+             * @param page
+             *   The page to flip to.
+             *   '+': The next page
+             *   '-': The previous page
+             *   n:   A specific page
+             */
+            this.paginate = function (page) {
+                switch (page) {
+                    case '+':
+                        $scope.paginateCurrentPage++;break; //TODO Dont go past last page
+                    case '-':
+                        $scope.paginateCurrentPage = Math.max($scope.paginateCurrentPage - 1, 1);break;
+                    default:
+                        $scope.paginateCurrentPage = page;break;
+                }
+
+                _this.applyFilter({
+                    paginate: {
+                        rows: $scope.paginateRowsPerPage,
+                        offset: $scope.paginateRowsPerPage * ($scope.paginateCurrentPage - 1)
+                    }
+                });
+            };
+
+            /**
+             * Applies a new filter to the current list of filters, then runs them in order.
+             * Filter order is filter, sort, then paginate.
+             *
+             * @param filter
+             *   The filter object to apply.  The object structure is {filterName: {parameters}}
+             */
+            this.filters = {
+                filter: {},
+                sort: { field: '', direction: 1 },
+                paginate: { rows: $scope.paginateRowsPerPage, offset: 0 }
+            };
+            this.applyFilter = function (filter) {
+                angular.extend(_this.filters, filter);
+                var rows = $filter('filter')(_this.originalRows, _this.filters.filter);
+                rows = $filter('orderBy')(rows, _this.filters.sort.field, _this.filters.sort.direction);
+                rows = $filter('limitTo')(rows, $scope.paginateRowsPerPage, _this.filters.paginate.offset);
+
+                $timeout(function () {
+                    return $scope.rows = rows;
                 });
             };
         }]

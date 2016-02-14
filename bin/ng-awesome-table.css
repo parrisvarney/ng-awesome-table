@@ -37,3 +37,17 @@
   border-right: 5px solid transparent;
   border-bottom: 5px solid black;
 }
+.pager {
+  color: #0000cc;
+  text-decoration: underline;
+}
+.nga-prev-page::after {
+  color: #0000cc;
+  text-decoration: underline;
+  content: 'prev';
+}
+.nga-next-page::after {
+  color: #0000cc;
+  text-decoration: underline;
+  content: 'next';
+}

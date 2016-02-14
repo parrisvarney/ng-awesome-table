@@ -3,7 +3,6 @@
   width:   100%;
 }
 
-
 .nga-sorter-icon {
   content:      '';
   float:        right;
@@ -30,4 +29,18 @@
     .nga-sorter-icon();
     border-bottom: 5px solid black;
   }
+}
+
+.pager {
+  color:           #0000cc;
+  text-decoration: underline;
+}
+.nga-prev-page::after {
+  .pager();
+  content: 'prev';
+}
+
+.nga-next-page::after {
+  .pager();
+  content: 'next';
 }
