@@ -1,6 +1,7 @@
 'use strict';
 module.exports = function ( grunt ) {
 
+    grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-contrib-less');
     grunt.loadNpmTasks('grunt-eslint');
     grunt.loadNpmTasks('grunt-babel');
@@ -45,6 +46,17 @@ module.exports = function ( grunt ) {
                 files: {
                     'bin/ng-awesome-table.min.js': ['bin/ng-awesome-table.js']
                 }
+            }
+        },
+
+        watch: {
+            less: {
+                files: ['css/*.less'],
+                tasks: ['less']
+            },
+            js: {
+                files: ['js/*'],
+                tasks: ['eslint']
             }
         }
     });

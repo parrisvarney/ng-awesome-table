@@ -1,3 +1,6 @@
-vendor
+bower_components
 node_modules
 .idea
+
+# webstorm keeps creating this with the less watcher...
+css/ng-awesome-table.css
