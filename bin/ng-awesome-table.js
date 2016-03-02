@@ -120,8 +120,11 @@ angular.module('ngAwesomeTable', []).directive('ngaTable', function () {
             this.applyFilter = function (filter) {
                 angular.extend(_this.filters, filter);
                 var rows = $filter('filter')(_this.originalRows, _this.filters.filter);
-                rows = $filter('orderBy')(rows, _this.filters.sort.field, _this.filters.sort.direction);
                 rows = $filter('limitTo')(rows, $scope.paginateRowsPerPage, _this.filters.paginate.offset);
+                rows = $filter('orderBy')(rows, function (row) {
+                    return row[_this.filters.sort.field] ? row[_this.filters.sort.field] : -1;
+                }, // Otherwise we'd get nulls between M and O like ['Mike', null, 'Other']
+                _this.filters.sort.direction);
 
                 $timeout(function () {
                     return $scope.rows = rows;

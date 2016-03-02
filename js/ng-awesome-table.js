@@ -109,8 +109,12 @@ angular.module('ngAwesomeTable', [])
                 this.applyFilter = filter => {
                     angular.extend(this.filters, filter);
                     let rows = $filter('filter')(this.originalRows, this.filters.filter);
-                    rows = $filter('orderBy')(rows, this.filters.sort.field, this.filters.sort.direction);
                     rows = $filter('limitTo')(rows, $scope.paginateRowsPerPage, this.filters.paginate.offset);
+                    rows = $filter('orderBy')(
+                        rows,
+                        row => row[this.filters.sort.field] ? row[this.filters.sort.field] : -1, // Otherwise we'd get nulls between M and O like ['Mike', null, 'Other']
+                        this.filters.sort.direction
+                    );
 
                     $timeout(() => $scope.rows = rows);
                 };
